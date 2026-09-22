@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#05070a">
+<meta name="description" content="Kingdom of Devil — Official Cybersecurity Research Collective">
+<title>Kingdom of Devil — Official</title>
+
+<style>
+:root{
+  --bg:#05070a;
+  --bg2:#0a0f14;
+  --green:#39ff88;
+  --green-dim:#1a7a4a;
+  --purple:#a855f7;
+  --purple-dim:#5b2f8f;
+  --text:#d7ffe9;
+  --muted:#7fa08f;
+  --card:rgba(15,25,22,.55);
+  --border:rgba(57,255,136,.25);
+  --danger:#ff6b6b;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:
+    radial-gradient(ellipse at 50% -10%,rgba(168,85,247,.16),transparent 55%),
+    radial-gradient(ellipse at 20% 30%,rgba(57,255,136,.10),transparent 50%),
+    var(--bg);
+  color:var(--text);
+  font-family:Consolas,"SFMono-Regular",Menlo,monospace;
+  overflow-x:hidden;
+  line-height:1.6;
+}
+
+body.modal-open{
+  overflow:hidden;
+}
+
+canvas#matrix{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  width:100%;
+  height:100%;
+  opacity:.35;
+  pointer-events:none;
+}
+
+.wrap{
+  position:relative;
+  z-index:1;
+}
+
+/* NAV */
+
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 24px;
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  position:relative;
+  z-index:5;
+}
+
+.logo{
+  font-weight:700;
+  letter-spacing:2px;
+  color:var(--green);
+  text-shadow:0 0 10px var(--green);
+}
+
+.logo span{
+  color:var(--purple);
+  text-shadow:0 0 10px var(--purple);
+}
+
+/* HERO */
+
+.hero{
+  min-height:82vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:40px 16px;
+  position:relative;
+}
+
+.crest{
+  position:absolute;
+  top:8%;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(70vw,340px);
+  opacity:.5;
+  filter:
+    drop-shadow(0 0 22px rgba(57,255,136,.35))
+    drop-shadow(0 0 40px rgba(168,85,247,.3));
+  animation:pulse 5s ease-in-out infinite;
+  pointer-events:none;
+}
+
+@keyframes pulse{
+  0%,100%{opacity:.35}
+  50%{opacity:.6}
+}
+
+.hero h1{
+  font-size:clamp(2rem,8vw,4.2rem);
+  letter-spacing:4px;
+  font-weight:800;
+  color:#eafff2;
+  text-shadow:
+    0 0 8px var(--green),
+    0 0 24px var(--purple);
+  animation:flicker 4s infinite;
+  line-height:1.2;
+}
+
+.hero .sub1{
+  color:var(--green);
+  letter-spacing:6px;
+  font-size:.85rem;
+  margin-bottom:14px;
+  margin-top:120px;
+}
+
+.hero .sub2{
+  color:var(--purple);
+  margin-top:16px;
+  font-size:1rem;
+  letter-spacing:2px;
+}
+
+@keyframes flicker{
+  0%,19%,21%,23%,25%,54%,56%,100%{opacity:1}
+  20%,24%,55%{opacity:.55}
+}
+
+.hero .est{
+  margin-top:22px;
+  color:var(--muted);
+  font-size:.8rem;
+  letter-spacing:3px;
+}
+
+.scroll-hint{
+  position:absolute;
+  bottom:18px;
+  color:var(--green);
+  opacity:.6;
+  font-size:1.4rem;
+  animation:bob 1.8s infinite;
+}
+
+@keyframes bob{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(8px)}
+}
+
+/* SECTIONS */
+
+section{
+  max-width:980px;
+  margin:0 auto;
+  padding:60px 18px;
+}
+
+h2.section-title{
+  font-size:1.5rem;
+  color:var(--green);
+  text-shadow:0 0 8px var(--green);
+  border-left:3px solid var(--purple);
+  padding-left:12px;
+  margin-bottom:24px;
+  letter-spacing:1px;
+}
+
+/* CARD */
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  padding:22px;
+  box-shadow:0 0 20px rgba(57,255,136,.05);
+  transition:transform .25s,box-shadow .25s,border-color .25s;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+  border-color:var(--green);
+  box-shadow:0 0 26px rgba(57,255,136,.18);
+}
+
+/* ABOUT */
+
+.about p{
+  color:var(--text);
+  font-size:.95rem;
+  margin-bottom:14px;
+}
+
+.about strong{
+  color:var(--green);
+}
+
+/* APPEAL */
+
+.field label{
+  display:block;
+  font-size:.8rem;
+  color:var(--purple);
+  margin-bottom:6px;
+  letter-spacing:1px;
+}
